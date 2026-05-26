@@ -294,20 +294,19 @@ static void lcm_resume(void)
 /* ================= ESD FUNCTIONS - FIX FOR "esd_check is null" ERROR ================= */
 static unsigned int lcm_esd_check(void)
 {
-    LCM_LOGI("%s: Returning OK (ESD check disabled)\n", __func__);
+    /* Return 1 to indicate panel is OK (ESD check disabled in LK) */
     return 1;
 }
 
 static unsigned int lcm_esd_recover(void)
 {
-    LCM_LOGI("%s: ESD recovery - nothing to do\n", __func__);
+    /* Return 1 to indicate recovery successful */
     return 1;
 }
 /* ==================================================================================== */
 
 static void lcm_set_cabc_mode_cmdq(void *handle, unsigned int level)
 {
-    LCM_LOGI("%s: cabc_mode=%d\n", __func__, level);
     if (level == 1) {
         push_table(handle, lcm_cabc_enter_setting_ui,
             sizeof(lcm_cabc_enter_setting_ui) / sizeof(struct LCM_setting_table), 1);
@@ -326,15 +325,12 @@ static void lcm_set_cabc_mode_cmdq(void *handle, unsigned int level)
 #ifdef BUILD_LK
 static unsigned int lcm_compare_id(void)
 {
-    LCM_LOGI("%s: HX83102D TRULY TRULY panel selected\n", __func__);
     return 1;
 }
 #endif
 
 static void lcm_setbacklight_cmdq(void *handle, unsigned int level)
 {
-    LCM_LOGI("%s: level=%d\n", __func__, level);
-
     if (level > 4095)
         level = 4095;
 
