@@ -291,8 +291,7 @@ static void lcm_resume(void)
     LCM_LOGI("%s: exit\n", __func__);
 }
 
-/* ================= CRITICAL: ESD FUNCTIONS ================= */
-/* These functions MUST exist to prevent "esd_check is null" error */
+/* ================= ESD FUNCTIONS - FIX FOR "esd_check is null" ERROR ================= */
 static unsigned int lcm_esd_check(void)
 {
     LCM_LOGI("%s: Returning OK (ESD check disabled)\n", __func__);
@@ -304,9 +303,8 @@ static unsigned int lcm_esd_recover(void)
     LCM_LOGI("%s: ESD recovery - nothing to do\n", __func__);
     return 1;
 }
-/* ============================================================ */
+/* ==================================================================================== */
 
-/* ================= CABC MODE FUNCTION ================= */
 static void lcm_set_cabc_mode_cmdq(void *handle, unsigned int level)
 {
     LCM_LOGI("%s: cabc_mode=%d\n", __func__, level);
@@ -324,7 +322,6 @@ static void lcm_set_cabc_mode_cmdq(void *handle, unsigned int level)
             sizeof(lcm_cabc_exit_setting) / sizeof(struct LCM_setting_table), 1);
     }
 }
-/* ====================================================== */
 
 #ifdef BUILD_LK
 static unsigned int lcm_compare_id(void)
@@ -375,7 +372,7 @@ LCM_DRIVER hx83102d_hdp_dsi_vdo_truly_truly_zal3251_lcm_drv = {
     .resume_power = lcm_resume_power,
     .set_backlight_cmdq = lcm_setbacklight_cmdq,
     .set_cabc_mode_cmdq = lcm_set_cabc_mode_cmdq,
-    /* CRITICAL: These lines fix the "esd_check is null" error */
+    /* ESD functions - These fix the "esd_check is null" error */
     .esd_check = lcm_esd_check,
     .esd_recover = lcm_esd_recover,
 };
